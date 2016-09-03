@@ -7,8 +7,8 @@
 
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>ee7563be-adea-4c9b-85d4-037e23d2c8bf</ProjectGuid>
-    <RootNamespace>utes.Core.Xml</RootNamespace>
+    <ProjectGuid>e1ba2f0f-5dff-4296-9956-3e1f6067aedd</ProjectGuid>
+    <RootNamespace>utes.Xunit</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
