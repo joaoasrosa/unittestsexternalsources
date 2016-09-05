@@ -2,10 +2,7 @@ version: 0.0.{build}
 configuration:
 - Debug
 - Release
-platform:
-- x86
-- x64
-- ARM
+platform: Any CPU
 init:
 - ps: $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
 environment:
@@ -16,6 +13,8 @@ before_build:
 - dotnet build "src\utes.Core" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
 - dotnet build "src\utes.Xunit" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
 - dotnet build "tests\utes.Core.Tests" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
+build:
+  verbosity: normal
 after_build:
 - dotnet pack "src\utes.Xunit" -c %CONFIGURATION% --no-build --version-suffix %LABEL% -o artifacts
 test_script:
