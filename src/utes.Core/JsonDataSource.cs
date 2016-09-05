@@ -6,14 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using utes.Core;
 
-namespace utes.Json
+namespace utes.Core
 {
     /// <summary>
     /// Class responsible to read from Json.
     /// </summary>
-    public class Json : IReadDataSource
+    public class JsonDataSource : IReadDataSource
     {
         /// <summary>
         /// Method to read from the external data source.

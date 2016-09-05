@@ -19,8 +19,8 @@ namespace utes.Xunit
         /// is represented by a single object array.</returns>
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            var json = new Json.Json();
-            return json.Read(testMethod);
+            var jsonDataSource = new Core.JsonDataSource();
+            return jsonDataSource.Read(testMethod);
         }
     }
 }

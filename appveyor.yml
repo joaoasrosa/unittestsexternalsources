@@ -2,7 +2,10 @@ version: 0.0.{build}
 configuration:
 - Debug
 - Release
-platform: Any CPU
+platform:
+- x86
+- x64
+- ARM
 init:
 - ps: $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
 environment:
@@ -11,13 +14,11 @@ cache: '%USERPROFILE%\.nuget\packages'
 before_build:
 - dotnet restore
 - dotnet build "src\utes.Core" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
-- dotnet build "src\utes.Json" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
 - dotnet build "src\utes.Xunit" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
 - dotnet build "tests\utes.Core.Tests" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
-- dotnet build "tests\utes.Json.Tests" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
 after_build:
 - dotnet pack "src\utes.Xunit" -c %CONFIGURATION% --no-build --version-suffix %LABEL% -o artifacts
 test_script:
-- dotnet test "tests\utes.Json.Tests" -c %CONFIGURATION%
+- dotnet test "tests\utes.Core.Tests" -c %CONFIGURATION%
 artifacts:
 - path: artifacts\**\*.*

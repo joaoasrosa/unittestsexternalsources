@@ -6,7 +6,7 @@ namespace utes.Core
     /// <summary>
     /// Interface to read from the external data source.
     /// </summary>
-    public interface IRead
+    public interface IReadDataSource
     {
         /// <summary>
         /// Method to read from the external data source.

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using utes.Xunit;
 using Xunit;
 
-namespace utes.Json.Tests
+namespace utes.Core.Tests
 {
-    public class Json
+    public class JsonDataSource
     {
         //[Fact]
         //public void ReadTest()
