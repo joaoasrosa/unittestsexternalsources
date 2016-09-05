@@ -10,7 +10,11 @@ environment:
 cache: '%USERPROFILE%\.nuget\packages'
 before_build:
 - dotnet restore
+- dotnet build "src\utes.Core" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
+- dotnet build "src\utes.Json" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
 - dotnet build "src\utes.Xunit" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
+- dotnet build "tests\utes.Core.Tests" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
+- dotnet build "tests\utes.Json.Tests" -c %CONFIGURATION% --no-dependencies --version-suffix %LABEL%
 build:
   verbosity: normal
 after_build:
