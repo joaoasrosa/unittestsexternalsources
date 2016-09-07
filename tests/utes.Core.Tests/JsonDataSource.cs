@@ -1,39 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using Xunit;
 using utes.Xunit;
-using Xunit;
 
 namespace utes.Core.Tests
 {
     public class JsonDataSource
     {
-        //[Fact]
-        //public void ReadTest()
-        //{
-        //    // Arrange
-        //    var json = new utes.Json.Json();
-
-        //    // Act
-        //    var t = typeof(Tests.Json).GetTypeInfo();
-            
-
-
-        //    json.Read(t.GetMethod("DummyTest"));
-
-        //    // Assert
-        //    Assert.True(true);
-        //}
-
-        //[Theory]
-        //[JsonDataSource]
-        //public void DummyTest(int a) {
-
-        //    Assert.True(true);
-
-        //}
-
+        [Theory]
+        [JsonDataSource(ResourceName = @"test", ResourceType = typeof(Resources))]
+        public void DummyTest(int a)
+        {
+            Assert.Equal(1, a);
+        }
     }
 }

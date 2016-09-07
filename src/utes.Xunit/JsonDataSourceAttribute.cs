@@ -8,7 +8,7 @@ namespace utes.Xunit
     /// <summary>
     /// Class to handle the parameters from a JSON data source.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class JsonDataSourceAttribute : DataAttribute
     {
         /// <summary>
@@ -19,8 +19,23 @@ namespace utes.Xunit
         /// is represented by a single object array.</returns>
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            var jsonDataSource = new Core.JsonDataSource();
+            var jsonDataSource = new Core.JsonDataSource(this.FileLocation, this.ResourceName, this.ResourceType);
             return jsonDataSource.Read(testMethod);
         }
+
+        /// <summary>
+        /// The file location.
+        /// </summary>
+        public string FileLocation { get; set; }
+
+        /// <summary>
+        /// The resource type.
+        /// </summary>
+        public Type ResourceType { get; set; }
+
+        /// <summary>
+        /// The resource name.
+        /// </summary>
+        public string ResourceName { get; set; }
     }
 }
