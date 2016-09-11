@@ -21,6 +21,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "utes.Core.Tests", "tests\ut
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "utes.Xunit", "src\utes.Xunit\utes.Xunit.xproj", "{E1BA2F0F-5DFF-4296-9956-3E1F6067AEDD}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "utes.WebApp", "src\utes.WebApp\utes.WebApp.xproj", "{9CA835D5-3237-4B55-8F29-D7E599AD8FA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{E1BA2F0F-5DFF-4296-9956-3E1F6067AEDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1BA2F0F-5DFF-4296-9956-3E1F6067AEDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1BA2F0F-5DFF-4296-9956-3E1F6067AEDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CA835D5-3237-4B55-8F29-D7E599AD8FA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA835D5-3237-4B55-8F29-D7E599AD8FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA835D5-3237-4B55-8F29-D7E599AD8FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA835D5-3237-4B55-8F29-D7E599AD8FA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -47,5 +53,6 @@ Global
 		{27DB1E1F-38CC-473A-843C-7F51EAFCE0BD} = {D5129A53-775D-46A1-919C-7FF21B767DEE}
 		{6E4547CB-B6D5-419C-9922-36519CE67FD3} = {6E8DBDC7-49E8-4D14-B479-D6D9449A1986}
 		{E1BA2F0F-5DFF-4296-9956-3E1F6067AEDD} = {D5129A53-775D-46A1-919C-7FF21B767DEE}
+		{9CA835D5-3237-4B55-8F29-D7E599AD8FA8} = {D5129A53-775D-46A1-919C-7FF21B767DEE}
 	EndGlobalSection
 EndGlobal
