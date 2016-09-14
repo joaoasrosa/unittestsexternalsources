@@ -3,20 +3,21 @@ configuration:
 - Debug
 - Release
 platform: Any CPU
-init:
-- ps: $Env:LABEL = "CI" + $Env:APPVEYOR_BUILD_NUMBER.PadLeft(5, "0")
 environment:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 cache: '%USERPROFILE%\.nuget\packages'
 before_build:
 - cmd: dotnet restore
 - ps: >-
-    Write-Host $Env:LABEL
-    Write-Host $Env:APPVEYOR_BUILD_NUMBER
+    Get-ChildItem -Path $ENV:APPVEYOR_BUILD_FOLDER -Recurse –File -Filter project.json | foreach {
+      $jsonFile = Get-Content $_.FullName -raw | ConvertFrom-Json
+      $jsonFile.version = $ENV:APPVEYOR_BUILD_VERSION
+      $jsonFile | ConvertTo-Json -Depth 999 | Out-File $_.FullName
+    }
 build:
   verbosity: normal
 after_build:
-- dotnet pack "src\utes.Xunit" -c %CONFIGURATION% --no-build --version-suffix %LABEL% -o artifacts
+- dotnet pack "src\utes.Xunit" -c %CONFIGURATION% --no-build --version-suffix %APPVEYOR_BUILD_VERSION% -o artifacts
 test_script:
 - dotnet test "tests\utes.Core.Tests" -c %CONFIGURATION%
 artifacts:
