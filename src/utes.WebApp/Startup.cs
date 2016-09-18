@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 using utes.WebApp.Extensions;
 
 namespace utes.WebApp
@@ -27,6 +28,9 @@ namespace utes.WebApp
             // Add framework services.
             services.AddMvc();
 
+            // Add logging.
+            services.AddLogging();
+
             // Add the web app dependencies.
             services.AddDependencies();
         }
@@ -34,8 +38,7 @@ namespace utes.WebApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            loggerFactory.AddNLog();
 
             if (env.IsDevelopment())
             {

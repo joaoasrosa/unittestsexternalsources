@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using utes.Core;
 using utes.Interfaces;
+using utes.Xunit;
 
 namespace utes.WebApp.Extensions
 {
@@ -16,6 +18,7 @@ namespace utes.WebApp.Extensions
         internal static IServiceCollection AddDependencies(this IServiceCollection services)
         {
             services.AddSingleton<IAssemblyStorage, WebApplicationAssemblyStorage.WebApplicationAssemblyStorage>();
+            services.AddScoped<IMethodAttribute, JsonDataSourceAttribute>();
 
             return services;
         }

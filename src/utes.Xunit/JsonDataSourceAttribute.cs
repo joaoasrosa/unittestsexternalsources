@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using utes.Core;
 using Xunit.Sdk;
 
 namespace utes.Xunit
@@ -9,7 +10,7 @@ namespace utes.Xunit
     /// Class to handle the parameters from a JSON data source.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
-    public class JsonDataSourceAttribute : DataAttribute
+    public class JsonDataSourceAttribute : DataAttribute, IMethodAttribute
     {
         /// <summary>
         /// Returns the data to be used to test the theory.
