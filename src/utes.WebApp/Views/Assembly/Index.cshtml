@@ -1,0 +1,20 @@
+﻿@model IEnumerable<utes.Domain.Assembly>
+@{
+    ViewData["Title"] = "Assemblies";
+}
+
+<h2>@ViewData["Title"].</h2>
+<p>
+    @Html.ActionLink("Upload", "Upload", new { }, new { @class = "btn btn-primary" })
+</p>
+<p></p>
+<div id="assemblies">Loading...</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var initialData = @Html.Raw(JsonConvert.SerializeObject(Model));
+    </script>
+    <script type="text/babel" src="@Url.Content("~/jsx/assembly-index.jsx")">
+    </script>
+}

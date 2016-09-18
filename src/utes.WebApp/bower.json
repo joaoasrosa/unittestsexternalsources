@@ -2,11 +2,12 @@
   "name": "asp.net",
   "private": true,
   "dependencies": {
-    "bootstrap": "3.3.6",
-    "jquery": "2.2.3",
+    "bootstrap": "3.3.7",
+    "jquery": "2.2.4",
     "jquery-validation": "1.15.0",
     "jquery-validation-unobtrusive": "3.2.6",
-    "react": "15.3.1"
+    "react": "15.3.1",
+    "babel": "5.8.38" 
   },
   "resolutions": {
     "jquery": ">= 1.7.2",

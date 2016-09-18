@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Upload Assembly";
+}
+
+<h2>@ViewData["Title"].</h2>
+@Html.AntiForgeryToken()
+<div id="assemblyForm">Loading...</div>
+
+@section scripts
+{
+    <script type="text/babel" src="@Url.Content("~/jsx/assembly-upload.jsx")">
+    </script>
+}
