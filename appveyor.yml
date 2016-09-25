@@ -23,7 +23,7 @@ after_build:
 - dotnet pack "src\utes.Xunit" -c %CONFIGURATION% --no-build --version-suffix %APPVEYOR_BUILD_VERSION% -o artifacts
 test_script:
 - ps: >-
-	dotnet test "tests\utes.Core.Tests" -c %CONFIGURATION%
-	dotnet test "tests\utesutes.WebApplicationAssemblyStorage.Tests" -c %CONFIGURATION%
+	dotnet test "tests\utes.Core.Tests" -c $ENV:CONFIGURATION
+	dotnet test "tests\utesutes.WebApplicationAssemblyStorage.Tests" -c $ENV:CONFIGURATION
 artifacts:
 - path: artifacts\**\*.*
