@@ -24,6 +24,7 @@ after_build:
 test_script:
 - ps: >-
     dotnet test ".\tests\utes.Core.Tests" -c $ENV:CONFIGURATION
+
     dotnet test ".\tests\utesutes.WebApplicationAssemblyStorage.Tests" -c $ENV:CONFIGURATION
 artifacts:
 - path: artifacts\**\*.*
