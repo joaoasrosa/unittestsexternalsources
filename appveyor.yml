@@ -4,10 +4,6 @@ platform: Any CPU
 environment:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
 cache: '%USERPROFILE%\.nuget\packages'
-init:
-- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
-on_finish:
-- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 before_build:
 - cmd: dotnet restore
 - ps: >-
