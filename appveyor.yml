@@ -31,7 +31,7 @@ test_script:
 
     $target = '-target:C:\Program Files\dotnet\dotnet.exe'
 
-    $targetArgs = '-targetargs: test $ENV:USERPROFILE\tests\utes.WebApplicationAssemblyStorage.Tests -c $ENV:CONFIGURATION'
+    $targetArgs = '-targetargs: test ' + $ENV:USERPROFILE + '\tests\utes.WebApplicationAssemblyStorage.Tests -c ' + $ENV:CONFIGURATION
 
     $register = '-register:user'
 
