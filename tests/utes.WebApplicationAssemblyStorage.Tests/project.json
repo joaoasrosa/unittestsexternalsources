@@ -5,6 +5,7 @@
   "dependencies": {
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
     "Moq": "4.6.38-alpha",
+    "OpenCover": "4.6.519",
     "utes.Domain": "1.0.0-*",
     "utes.Interfaces": "1.0.0-*",
     "utes.WebApplicationAssemblyStorage": "1.0.0-*",
