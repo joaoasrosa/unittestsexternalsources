@@ -41,7 +41,7 @@ test_script:
 
     & $openCoverConsole $target $targetArgs $register $filter $oldStyle
 
-    $ENV:PATH=C:\\Python34;C:\\Python34\\Scripts;$ENV:PATH
+    $ENV:PATH = 'C:\\Python34;C:\\Python34\\Scripts;' + $ENV:PATH
  
     pip install git+git://github.com/codecov/codecov-python.git
 
