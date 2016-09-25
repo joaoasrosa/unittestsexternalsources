@@ -23,6 +23,6 @@ after_build:
 - dotnet pack "src\utes.Xunit" -c %CONFIGURATION% --no-build --version-suffix %APPVEYOR_BUILD_VERSION% -o artifacts
 test_script:
 - ps: >-
-    "$ENV:USERPROFILE\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe" "-target:C:\Program Files\dotnet\dotnet.exe" -targetargs:" test ""$ENV:APPVEYOR_BUILD_FOLDER\tests\utes.Core.Tests"" -c $ENV:CONFIGURATION" -register:user "-filter:+[utes.Core*]* -[utes.Core.Tests]*" -output:results.xml -oldStyle
+    "$ENV:USERPROFILE\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe" -target:"C:\Program Files\dotnet\dotnet.exe" -targetargs:" test $ENV:APPVEYOR_BUILD_FOLDER\tests\utes.Core.Tests -c $ENV:CONFIGURATION" -register:user -filter:"+[utes.Core*]* -[utes.Core.Tests]*" -output:results.xml -oldStyle
 artifacts:
 - path: artifacts\**\*.*
