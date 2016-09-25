@@ -41,7 +41,7 @@ test_script:
 
     & $openCoverConsole $target $targetArgs $register $filter $oldStyle
 
-    $resultsFile = $ENV:APPVEYOR_BUILD_FOLDER + 'results.xml'
+    $resultsFile = $ENV:APPVEYOR_BUILD_FOLDER + '\results.xml'
 
     $ENV:PATH = 'C:\\Python34;C:\\Python34\\Scripts;' + $ENV:PATH
  
