@@ -23,8 +23,14 @@ after_build:
 - dotnet pack "src\utes.Xunit" -c %CONFIGURATION% --no-build --version-suffix %APPVEYOR_BUILD_VERSION% -o artifacts
 test_script:
 - ps: >-
-    dotnet test ".\tests\utes.Core.Tests" -c $ENV:CONFIGURATION
+    $ENV:USERPROFILE\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe "-target:C:\Program Files\dotnet\dotnet.exe" -targetargs:" test ""$ENV:APPVEYOR_BUILD_FOLDER\tests\utes.Core.Tests"" -c $ENV:CONFIGURATION" -register:user "-filter:+[utes.Core*]* -[utes.Core.Tests]*" -output:results.xml -oldStyle
 
-    dotnet test ".\tests\utes.WebApplicationAssemblyStorage.Tests" -c $ENV:CONFIGURATION
+    $ENV:USERPROFILE\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe "-target:C:\Program Files\dotnet\dotnet.exe" -targetargs:" test ""$ENV:APPVEYOR_BUILD_FOLDER\tests\utes.WebApplicationAssemblyStorage.Tests"" -c $ENV:CONFIGURATION" -register:user "-filter:+[utes.WebApplicationAssemblyStorage*]* -[utes.WebApplicationAssemblyStorage.Tests]*" -output:results.xml -mergeoutput -oldStyle
+
+    $ENV:PATH=C:\\Python34;C:\\Python34\\Scripts;$ENV:PATH
+
+    pip install git+git://github.com/codecov/codecov-python.git
+
+    codecov -f "results.xml"
 artifacts:
 - path: artifacts\**\*.*
