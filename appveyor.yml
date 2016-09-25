@@ -1,7 +1,5 @@
 version: 1.0.{build}
-configuration:
-- Debug
-- Release
+configuration: Release
 platform: Any CPU
 environment:
   DOTNET_CLI_TELEMETRY_OPTOUT: 1
@@ -28,25 +26,16 @@ after_build:
 test_script:
 - ps: >-
     $openCoverConsole = $ENV:USERPROFILE + '\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe'
-
     $target = '-target:C:\Program Files\dotnet\dotnet.exe'
-
     $targetArgs = '-targetargs: test ' + $ENV:APPVEYOR_BUILD_FOLDER + '\tests\utes.WebApplicationAssemblyStorage.Tests -c ' + $ENV:CONFIGURATION
-
     $register = '-register:user'
-
     $filter = '-filter:+[utes.WebApplicationAssemblyStorage*]* -[utes.WebApplicationAssemblyStorage.Tests]*'
-
     $oldStyle = '-oldStyle'
-
     & $openCoverConsole $target $targetArgs $register $filter $oldStyle
 
     $resultsFile = $ENV:APPVEYOR_BUILD_FOLDER + '\results.xml'
-
     $ENV:PATH = 'C:\\Python34;C:\\Python34\\Scripts;' + $ENV:PATH
- 
     pip install git+git://github.com/codecov/codecov-python.git
-
     codecov -f $resultsFile
 artifacts:
 - path: artifacts\**\*.*
