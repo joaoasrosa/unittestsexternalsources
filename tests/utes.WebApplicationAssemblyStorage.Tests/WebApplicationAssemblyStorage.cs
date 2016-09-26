@@ -3,12 +3,14 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Moq;
+using utes.Core;
 using Xunit;
 
 namespace utes.WebApplicationAssemblyStorage.Tests
 {
     public class WebApplicationAssemblyStorage : IDisposable
     {
+        private const string NonExistentTestDllDirectory = @"C:\Temp\NonUnitTestExternalSources";
         private const string TestDllDirectory = @"C:\Temp\UnitTestExternalSources";
         private const string DllDirectory = @"C:\Temp\UnitTestExternalSources\assemblies";
         private const string AssemblyNameWithExtension = "utes.WebApplicationAssemblyStorage.Tests.dll";
@@ -41,6 +43,81 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             {
                 Directory.Delete(DllDirectory, true);
             }
+
+            if (Directory.Exists(NonExistentTestDllDirectory))
+            {
+                Directory.Delete(NonExistentTestDllDirectory, true);
+            }
+        }
+
+        /// <summary>
+        /// Test method for WebApplicationAssemblyStorage with appEnvironmment null.
+        /// </summary>
+        [Fact]
+        public void ConstructorNullAppEnvironment()
+        {
+            try
+            {
+                // Arrange
+                // Act
+                var webApplicationAssemblyStorage =
+                    new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(null, null);
+            }
+            catch (ArgumentNullException argumentNullException)
+            {
+                // Assert
+                Assert.NotNull(argumentNullException);
+                Assert.Equal("Value cannot be null.\r\nParameter name: appEnvironment", argumentNullException.Message);
+            }
+        }
+
+        /// <summary>
+        /// Test method for WebApplicationAssemblyStorage with methodAttributes null.
+        /// </summary>
+        [Fact]
+        public void ConstructorNullMethodAttributes()
+        {
+            try
+            {
+                // Arrange
+                var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
+
+                // Act
+                var webApplicationAssemblyStorage =
+                    new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(hostingEnvironmentMock.Object, null);
+            }
+            catch (ArgumentNullException argumentNullException)
+            {
+                // Assert
+                Assert.NotNull(argumentNullException);
+                Assert.Equal("Value cannot be null.\r\nParameter name: methodAttributes", argumentNullException.Message);
+            }
+        }
+
+        /// <summary>
+        /// Test method for WebApplicationAssemblyStorage .
+        /// </summary>
+        [Fact]
+        public void Constructor()
+        {
+            try
+            {
+                // Arrange
+                var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
+                hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(NonExistentTestDllDirectory);
+
+                var methodAttributeMock = new Mock<IMethodAttribute>();
+
+                // Act
+                var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
+                    hostingEnvironmentMock.Object, new[] { methodAttributeMock.Object });
+            }
+            catch (ArgumentNullException argumentNullException)
+            {
+                // Assert
+                Assert.NotNull(argumentNullException);
+                Assert.Equal("Value cannot be null.\r\nParameter name: methodAttributes", argumentNullException.Message);
+            }
         }
 
         /// <summary>
@@ -53,7 +130,10 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
             hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(TestDllDirectory);
 
-            var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(hostingEnvironmentMock.Object, null);
+            var methodAttributeMock = new Mock<IMethodAttribute>();
+
+            var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
+                hostingEnvironmentMock.Object, new[] { methodAttributeMock.Object });
             // Act
             var assemblies = webApplicationAssemblyStorage.GetAssemblies();
 

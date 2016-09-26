@@ -28,6 +28,17 @@ namespace utes.WebApplicationAssemblyStorage
         public WebApplicationAssemblyStorage(IHostingEnvironment appEnvironment,
             IEnumerable<IMethodAttribute> methodAttributes)
         {
+            // Sanity tests.
+            if (null == appEnvironment)
+            {
+                throw new ArgumentNullException(nameof(appEnvironment));
+            }
+
+            if (null == methodAttributes)
+            {
+                throw new ArgumentNullException(nameof(methodAttributes));
+            }
+
             // If the path doesn't exist, create it
             this._assembliesPath = Path.Combine(appEnvironment.ContentRootPath, "assemblies");
             if (!Directory.Exists(this._assembliesPath))
