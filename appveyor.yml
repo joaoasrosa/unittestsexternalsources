@@ -43,6 +43,6 @@ test_script:
 
     pip install git+git://github.com/codecov/codecov-python.git
 
-    codecov -f $resultsFile
+    codecov -f $resultsFile -X gcov
 artifacts:
 - path: artifacts\**\*.*
