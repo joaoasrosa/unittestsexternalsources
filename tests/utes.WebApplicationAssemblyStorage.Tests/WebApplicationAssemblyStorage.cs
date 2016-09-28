@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Moq;
 using utes.Core;
+using utes.Domain;
 using Xunit;
 
 namespace utes.WebApplicationAssemblyStorage.Tests
@@ -84,7 +85,8 @@ namespace utes.WebApplicationAssemblyStorage.Tests
 
                 // Act
                 var webApplicationAssemblyStorage =
-                    new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(hostingEnvironmentMock.Object, null);
+                    new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(hostingEnvironmentMock.Object,
+                        null);
             }
             catch (ArgumentNullException argumentNullException)
             {
@@ -109,8 +111,9 @@ namespace utes.WebApplicationAssemblyStorage.Tests
                 var methodAttributeMock = new Mock<IMethodAttribute>();
 
                 // Act
-                var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
-                    hostingEnvironmentMock.Object, new[] { methodAttributeMock.Object });
+                var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage
+                (
+                    hostingEnvironmentMock.Object, new[] {methodAttributeMock.Object});
             }
             catch (ArgumentNullException argumentNullException)
             {
@@ -133,7 +136,8 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             var methodAttributeMock = new Mock<IMethodAttribute>();
 
             var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
-                hostingEnvironmentMock.Object, new[] { methodAttributeMock.Object });
+                hostingEnvironmentMock.Object, new[] {methodAttributeMock.Object});
+
             // Act
             var assemblies = webApplicationAssemblyStorage.GetAssemblies();
 
@@ -152,12 +156,34 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         }
 
         /// <summary>
-        /// Test method for SaveAssembly method.
+        /// Test method for SaveAssembly method with wrong assembly extension.
         /// </summary>
         [Fact]
-        public void SaveAssembly()
+        public void SaveAssemblyWrongException()
         {
-            // TODO
+            try
+            {
+                // Arrange
+                var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
+                hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(TestDllDirectory);
+
+                var methodAttributeMock = new Mock<IMethodAttribute>();
+
+                var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
+                    hostingEnvironmentMock.Object, new[] { methodAttributeMock.Object });
+
+                var assemblyMock = new Mock<Assembly>();
+
+                // Act
+                webApplicationAssemblyStorage.SaveAssembly(assemblyMock.Object);
+            }
+            catch (BadImageFormatException badImageFormatException)
+            {
+                // Assert
+                Assert.Equal("Unexpected file extension.", badImageFormatException.Message);
+            }
         }
+
+
     }
 }

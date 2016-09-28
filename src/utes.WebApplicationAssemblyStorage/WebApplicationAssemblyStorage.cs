@@ -78,7 +78,7 @@ namespace utes.WebApplicationAssemblyStorage
             // 1. Is DLL?
             if (!assembly.Name.EndsWith(".dll"))
             {
-                throw new BadImageFormatException("unexpected file extension.");
+                throw new BadImageFormatException("Unexpected file extension.");
             }
 
             // Save in order to load from disk.
