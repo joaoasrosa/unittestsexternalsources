@@ -21,9 +21,16 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         public WebApplicationAssemblyStorage()
         {
             // Clean up from some erroneous test run.
-            if (Directory.Exists(DllDirectory))
+            try
             {
-                Directory.Delete(DllDirectory, true);
+                if (Directory.Exists(DllDirectory))
+                {
+                    Directory.Delete(DllDirectory, true);
+                }
+            }
+            catch
+            {
+                // ignored
             }
 
             if (!Directory.Exists(DllDirectory))

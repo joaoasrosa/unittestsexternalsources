@@ -114,11 +114,6 @@ namespace utes.WebApplicationAssemblyStorage
             }
             catch
             {
-                if (!File.Exists(assemblyPath))
-                {
-                    throw;
-                }
-
                 try
                 {
                     File.SetAttributes(assemblyPath, FileAttributes.Normal);
