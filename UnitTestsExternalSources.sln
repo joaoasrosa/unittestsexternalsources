@@ -32,6 +32,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "utes.WebApplicationAssembly
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "utes.WebApplicationAssemblyStorage.Tests", "tests\utes.WebApplicationAssemblyStorage.Tests\utes.WebApplicationAssemblyStorage.Tests.xproj", "{378E86F4-E3A0-4630-8479-9A706BB5506F}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "utes.WebApp.Tests", "tests\utes.WebApp.Tests\utes.WebApp.Tests.xproj", "{0E7F6EEF-8BF9-4E08-A736-CE66CDC46135}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +72,10 @@ Global
 		{378E86F4-E3A0-4630-8479-9A706BB5506F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{378E86F4-E3A0-4630-8479-9A706BB5506F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{378E86F4-E3A0-4630-8479-9A706BB5506F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E7F6EEF-8BF9-4E08-A736-CE66CDC46135}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E7F6EEF-8BF9-4E08-A736-CE66CDC46135}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E7F6EEF-8BF9-4E08-A736-CE66CDC46135}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E7F6EEF-8BF9-4E08-A736-CE66CDC46135}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,5 +89,6 @@ Global
 		{E32434E2-A437-41D3-92CB-5B4197369201} = {D5129A53-775D-46A1-919C-7FF21B767DEE}
 		{A512EA70-EA53-4221-A2DE-FDFD3C88FC54} = {D5129A53-775D-46A1-919C-7FF21B767DEE}
 		{378E86F4-E3A0-4630-8479-9A706BB5506F} = {6E8DBDC7-49E8-4D14-B479-D6D9449A1986}
+		{0E7F6EEF-8BF9-4E08-A736-CE66CDC46135} = {6E8DBDC7-49E8-4D14-B479-D6D9449A1986}
 	EndGlobalSection
 EndGlobal
