@@ -21,6 +21,8 @@ after_build:
 - dotnet pack "src\utes.Xunit" -c %CONFIGURATION% --no-build --version-suffix %APPVEYOR_BUILD_VERSION% -o artifacts
 test_script:
 - ps: >-
+    $resultsFile = $ENV:APPVEYOR_BUILD_FOLDER + '\results.xml'
+
     $openCoverConsole = $ENV:USERPROFILE + '\.nuget\packages\OpenCover\4.6.519\tools\OpenCover.Console.exe'
 
     $target = '-target:C:\Program Files\dotnet\dotnet.exe'
@@ -39,11 +41,9 @@ test_script:
 
     $filter = '-filter:+[utes.WebApp*]* -[utes.WebApp.Tests]* -[utes.WebApp]*Startup* -[utes.WebApp]*Program* -[utes.WebApp]*Models* -[utes.WebApp]*Extensions*'
 
-    $mergeoutput = '-output:results.xml -mergeoutput'
+    $mergeoutput = '-output:' + $resultsFile + ' -mergeoutput'
 
     & $openCoverConsole $target $targetArgs $register $filter $mergeoutput $oldStyle
-
-    $resultsFile = $ENV:APPVEYOR_BUILD_FOLDER + '\results.xml'
 
     $artifactsFolder = $ENV:APPVEYOR_BUILD_FOLDER + '\artifacts'
 
