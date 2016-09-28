@@ -29,7 +29,7 @@ test_script:
 
     $register = '-register:user'
 
-    $filter = '-filter:+[utes.WebApplicationAssemblyStorage*]* -[utes.WebApplicationAssemblyStorage.Tests]*'
+    $filter = '-filter:+[utes.WebApplicationAssemblyStorage*]* -[utes.WebApplicationAssemblyStorage.Tests]* -[utes.WebApplicationAssemblyStorage]MyAssemblyLoadContext'
 
     $oldStyle = '-oldStyle'
 
