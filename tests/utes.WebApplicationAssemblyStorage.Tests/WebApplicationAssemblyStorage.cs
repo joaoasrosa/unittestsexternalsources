@@ -279,7 +279,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
                 var dllPath = Directory.EnumerateFiles(AppContext.BaseDirectory, "*.dll").First();
                 var assembly = new Assembly
                 {
-                    Name = "HelloWorld.dll",
+                    Name = "FooBar.dll",
                     ContentBytes = File.ReadAllBytes(dllPath)
                 };
 
