@@ -45,6 +45,10 @@ test_script:
 
     $resultsFile = $ENV:APPVEYOR_BUILD_FOLDER + '\results.xml'
 
+    $artifactsFolder = $ENV:APPVEYOR_BUILD_FOLDER + '\artifacts'
+
+    Copy-Item $resultsFile $artifactsFolder
+
     $ENV:PATH = 'C:\\Python34;C:\\Python34\\Scripts;' + $ENV:PATH
 
     python -m pip install --upgrade pip
