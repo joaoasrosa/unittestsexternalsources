@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Moq;
 using utes.Core;
 using utes.Domain;
+using utes.Xunit;
 using Xunit;
 
 namespace utes.WebApplicationAssemblyStorage.Tests
@@ -40,14 +41,21 @@ namespace utes.WebApplicationAssemblyStorage.Tests
 
         public void Dispose()
         {
-            if (Directory.Exists(DllDirectory))
+            try
             {
-                Directory.Delete(DllDirectory, true);
-            }
+                if (Directory.Exists(DllDirectory))
+                {
+                    Directory.Delete(DllDirectory, true);
+                }
 
-            if (Directory.Exists(NonExistentTestDllDirectory))
+                if (Directory.Exists(NonExistentTestDllDirectory))
+                {
+                    Directory.Delete(NonExistentTestDllDirectory, true);
+                }
+            }
+            catch
             {
-                Directory.Delete(NonExistentTestDllDirectory, true);
+                // ignored
             }
         }
 
@@ -159,7 +167,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         /// Test method for SaveAssembly method with wrong assembly extension.
         /// </summary>
         [Fact]
-        public void SaveAssemblyWrongException()
+        public void SaveAssemblyWrongAssemblyExtensionException()
         {
             try
             {
@@ -187,6 +195,99 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             }
         }
 
+        /// <summary>
+        /// Test method for SaveAssembly method with wrong assembly file.
+        /// </summary>
+        [Fact]
+        public void SaveAssemblyWrongAssemblyFileException()
+        {
+            try
+            {
+                // Arrange
+                var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
+                hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(TestDllDirectory);
 
+                var methodAttributeMock = new Mock<IMethodAttribute>();
+
+                var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
+                    hostingEnvironmentMock.Object, new[] { methodAttributeMock.Object });
+
+                var assembly = new Assembly
+                {
+                    Name = "HelloWorld.dll",
+                    ContentBytes = new[] { byte.Parse("0"), byte.Parse("1") }
+                };
+
+                // Act
+                webApplicationAssemblyStorage.SaveAssembly(assembly);
+            }
+            catch (BadImageFormatException badImageFormatException)
+            {
+                // Assert
+                Assert.Equal(" is not a valid Win32 application. (Exception from HRESULT: 0x800700C1)", badImageFormatException.Message);
+            }
+        }
+
+        /// <summary>
+        /// Test method for SaveAssembly method with assembly file not implementing the interface.
+        /// </summary>
+        [Fact]
+        public void SaveAssemblyAssemblyDoesNotImplementInterfaceException()
+        {
+            try
+            {
+                // Arrange
+                var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
+                hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(TestDllDirectory);
+
+                var methodAttributeMock = new Mock<IMethodAttribute>();
+
+                var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
+                    hostingEnvironmentMock.Object, new[] { methodAttributeMock.Object });
+
+                var dllPath = Directory.EnumerateFiles(AppContext.BaseDirectory, "*.dll").First();
+                var assembly = new Assembly
+                {
+                    Name = "HelloWorld.dll",
+                    ContentBytes = File.ReadAllBytes(dllPath)
+                };
+
+                // Act
+                webApplicationAssemblyStorage.SaveAssembly(assembly);
+            }
+            catch (DataSourceAttributeNotFoundException dataSourceAttributeNotFoundException)
+            {
+                // Assert
+                Assert.Equal("The uploaded assembly do not implement IMethodAttribute interface.", dataSourceAttributeNotFoundException.Message);
+            }
+        }
+
+        /// <summary>
+        /// Test method for SaveAssembly method.
+        /// </summary>
+        [Fact]
+        public void SaveAssembly()
+        {
+            // Arrange
+            var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
+            hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(TestDllDirectory);
+
+            var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
+                hostingEnvironmentMock.Object, new[] { new JsonDataSourceAttribute() });
+
+            var dllPath = Directory.EnumerateFiles(AppContext.BaseDirectory, "utes.Core.Tests.dll").First();
+            var assembly = new Assembly
+            {
+                Name = "utes.Core.Tests.dll",
+                ContentBytes = File.ReadAllBytes(dllPath)
+            };
+
+            // Act
+            webApplicationAssemblyStorage.SaveAssembly(assembly);
+
+            // Assert 
+            // This case no exceptions.
+            Assert.True(true);
+        }
     }
 }

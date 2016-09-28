@@ -93,7 +93,7 @@ namespace utes.WebApp.Controllers
                     }
 
                 }
-                catch (DataSourceAttributeNotFound dataSourceAttributeNotFoundException)
+                catch (DataSourceAttributeNotFoundException dataSourceAttributeNotFoundException)
                 {
                     this._logger.LogInformation(EventId.ExceptionAssemblyUpload, dataSourceAttributeNotFoundException,
                         dataSourceAttributeNotFoundException.Message);

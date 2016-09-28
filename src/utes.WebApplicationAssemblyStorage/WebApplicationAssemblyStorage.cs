@@ -100,16 +100,17 @@ namespace utes.WebApplicationAssemblyStorage
                             typeMethod => typeMethod.GetCustomAttributes().Any(
                                 customAttribute => this._methodAttributes.Any(
                                     methodAttribute => customAttribute.GetType() == methodAttribute.GetType()
-                                    )
                                 )
                             )
                         )
                     )
+                )
                 {
                     return;
                 }
 
-                throw new DataSourceAttributeNotFound("The uploaded assembly do not implement IMethodAttribute interface.");
+                throw new DataSourceAttributeNotFoundException(
+                    "The uploaded assembly do not implement IMethodAttribute interface.");
             }
             catch
             {
@@ -118,8 +119,15 @@ namespace utes.WebApplicationAssemblyStorage
                     throw;
                 }
 
-                File.SetAttributes(assemblyPath, FileAttributes.Normal);
-                File.Delete(assemblyPath);
+                try
+                {
+                    File.SetAttributes(assemblyPath, FileAttributes.Normal);
+                    File.Delete(assemblyPath);
+                }
+                catch
+                {
+                    // ignored
+                }
 
                 throw;
             }
