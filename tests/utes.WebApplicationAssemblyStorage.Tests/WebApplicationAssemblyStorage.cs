@@ -113,7 +113,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
                 // Act
                 var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage
                 (
-                    hostingEnvironmentMock.Object, new[] {methodAttributeMock.Object});
+                    hostingEnvironmentMock.Object, new[] { methodAttributeMock.Object });
             }
             catch (ArgumentNullException argumentNullException)
             {
@@ -136,7 +136,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             var methodAttributeMock = new Mock<IMethodAttribute>();
 
             var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
-                hostingEnvironmentMock.Object, new[] {methodAttributeMock.Object});
+                hostingEnvironmentMock.Object, new[] { methodAttributeMock.Object });
 
             // Act
             var assemblies = webApplicationAssemblyStorage.GetAssemblies();
@@ -172,10 +172,13 @@ namespace utes.WebApplicationAssemblyStorage.Tests
                 var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
                     hostingEnvironmentMock.Object, new[] { methodAttributeMock.Object });
 
-                var assemblyMock = new Mock<Assembly>();
+                var assembly = new Assembly
+                {
+                    Name = "HelloWorld.txt"
+                };
 
                 // Act
-                webApplicationAssemblyStorage.SaveAssembly(assemblyMock.Object);
+                webApplicationAssemblyStorage.SaveAssembly(assembly);
             }
             catch (BadImageFormatException badImageFormatException)
             {
