@@ -15,6 +15,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         private const string NonExistentTestDllDirectory = @"C:\Temp\NonUnitTestExternalSources";
         private const string TestDllDirectory = @"C:\Temp\UnitTestExternalSources";
         private const string DllDirectory = @"C:\Temp\UnitTestExternalSources\assemblies";
+        private const string DummyDllDirectory = @"C:\Temp\UnitTestExternalSources\dummyassemblies";
         private const string AssemblyNameWithExtension = "utes.WebApplicationAssemblyStorage.Tests.dll";
         private const string AssemblyName = "utes.WebApplicationAssemblyStorage.Tests";
 
@@ -32,10 +33,28 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             {
                 // ignored
             }
+            
+            // Clean up from some erroneous test run.
+            try
+            {
+                if (Directory.Exists(DummyDllDirectory))
+                {
+                    Directory.Delete(DummyDllDirectory, true);
+                }
+            }
+            catch
+            {
+                // ignored
+            }
 
             if (!Directory.Exists(DllDirectory))
             {
                 Directory.CreateDirectory(DllDirectory);
+            }
+
+            if (!Directory.Exists(DummyDllDirectory))
+            {
+                Directory.CreateDirectory(DummyDllDirectory);
             }
 
             // Deploy known DLL's.
@@ -53,6 +72,11 @@ namespace utes.WebApplicationAssemblyStorage.Tests
                 if (Directory.Exists(DllDirectory))
                 {
                     Directory.Delete(DllDirectory, true);
+                }
+
+                if (Directory.Exists(DummyDllDirectory))
+                {
+                    Directory.Delete(DummyDllDirectory, true);
                 }
 
                 if (Directory.Exists(NonExistentTestDllDirectory))
@@ -180,7 +204,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             {
                 // Arrange
                 var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
-                hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(TestDllDirectory);
+                hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(DummyDllDirectory);
 
                 var methodAttributeMock = new Mock<IMethodAttribute>();
 
@@ -212,7 +236,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             {
                 // Arrange
                 var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
-                hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(TestDllDirectory);
+                hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(DummyDllDirectory);
 
                 var methodAttributeMock = new Mock<IMethodAttribute>();
 
@@ -245,7 +269,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             {
                 // Arrange
                 var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
-                hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(TestDllDirectory);
+                hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(DummyDllDirectory);
 
                 var methodAttributeMock = new Mock<IMethodAttribute>();
 
@@ -277,7 +301,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         {
             // Arrange
             var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
-            hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(TestDllDirectory);
+            hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(DummyDllDirectory);
 
             var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
                 hostingEnvironmentMock.Object, new[] { new JsonDataSourceAttribute() });
