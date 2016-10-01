@@ -33,7 +33,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             {
                 // ignored
             }
-            
+
             // Clean up from some erroneous test run.
             try
             {
@@ -94,7 +94,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         /// Test method for WebApplicationAssemblyStorage with appEnvironmment null.
         /// </summary>
         [Fact]
-        public void ConstructorNullAppEnvironment()
+        public void ConstructorNullAppEnvironmenttest()
         {
             try
             {
@@ -115,7 +115,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         /// Test method for WebApplicationAssemblyStorage with methodAttributes null.
         /// </summary>
         [Fact]
-        public void ConstructorNullMethodAttributes()
+        public void ConstructorNullMethodAttributesTest()
         {
             try
             {
@@ -139,7 +139,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         /// Test method for WebApplicationAssemblyStorage .
         /// </summary>
         [Fact]
-        public void Constructor()
+        public void ConstructorTest()
         {
             try
             {
@@ -198,7 +198,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         /// Test method for SaveAssembly method with wrong assembly extension.
         /// </summary>
         [Fact]
-        public void SaveAssemblyWrongAssemblyExtensionException()
+        public void SaveAssemblyWrongAssemblyExtensionExceptionTest()
         {
             try
             {
@@ -230,7 +230,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         /// Test method for SaveAssembly method with wrong assembly file.
         /// </summary>
         [Fact]
-        public void SaveAssemblyWrongAssemblyFileException()
+        public void SaveAssemblyWrongAssemblyFileExceptionTest()
         {
             try
             {
@@ -263,7 +263,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         /// Test method for SaveAssembly method with assembly file not implementing the interface.
         /// </summary>
         [Fact]
-        public void SaveAssemblyAssemblyDoesNotImplementInterfaceException()
+        public void SaveAssemblyAssemblyDoesNotImplementInterfaceExceptionTest()
         {
             try
             {
@@ -297,7 +297,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         /// Test method for SaveAssembly method.
         /// </summary>
         [Fact]
-        public void SaveAssembly()
+        public void SaveAssemblyTest()
         {
             // Arrange
             var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
