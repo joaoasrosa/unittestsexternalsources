@@ -1,4 +1,7 @@
 {
+  "version": "1.0.0-*",
+  "authors": [ "João Rosa" ],
+
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.1",

@@ -19,6 +19,16 @@ namespace utes.WebApp.Controllers
 
         public AssemblyController(IAssemblyStorage assemblyStorage, ILogger<AssemblyController> logger)
         {
+            if (null == assemblyStorage)
+            {
+                throw new ArgumentNullException(nameof(assemblyStorage));
+            }
+
+            if (null == logger)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
             this._assemblyStorage = assemblyStorage;
             this._logger = logger;
         }

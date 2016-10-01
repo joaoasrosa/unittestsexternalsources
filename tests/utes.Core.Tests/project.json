@@ -1,11 +1,12 @@
 {
   "version": "1.0.0-*",
+  "authors": [ "João Rosa" ],
   "testRunner": "xunit",
 
   "buildOptions": {
     "embed": {
       "includeFiles": [ "Resources.resx" ]
-    } 
+    }
   },
 
   "dependencies": {
@@ -21,7 +22,7 @@
       "dependencies": {
         "Microsoft.NETCore.App": {
           "type": "platform",
-          "version": "1.0.0"
+          "version": "1.0.1"
         }
       }
     }

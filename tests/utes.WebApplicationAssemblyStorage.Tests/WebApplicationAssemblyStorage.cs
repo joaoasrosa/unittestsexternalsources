@@ -94,7 +94,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         /// Test method for WebApplicationAssemblyStorage with appEnvironmment null.
         /// </summary>
         [Fact]
-        public void ConstructorNullAppEnvironmenttest()
+        public void ConstructorNullAppEnvironmentTest()
         {
             try
             {

@@ -15,7 +15,7 @@ namespace utes.WebApp.Tests.Controllers
         public void IndexTest()
         {
             // Arrange
-            var controller = new utes.WebApp.Controllers. HomeController();
+            var controller = new WebApp.Controllers. HomeController();
             
             // Act
             var result = controller.Index() as ViewResult;
@@ -38,7 +38,7 @@ namespace utes.WebApp.Tests.Controllers
         public void AboutTest()
         {
             // Arrange
-            var controller = new utes.WebApp.Controllers.HomeController();
+            var controller = new WebApp.Controllers.HomeController();
 
             // Act
             var result = controller.About() as ViewResult;
@@ -63,7 +63,7 @@ namespace utes.WebApp.Tests.Controllers
         public void ContactTest()
         {
             // Arrange
-            var controller = new utes.WebApp.Controllers.HomeController();
+            var controller = new WebApp.Controllers.HomeController();
 
             // Act
             var result = controller.Contact() as ViewResult;
@@ -88,7 +88,7 @@ namespace utes.WebApp.Tests.Controllers
         public void ErrorTest()
         {
             // Arrange
-            var controller = new utes.WebApp.Controllers.HomeController();
+            var controller = new WebApp.Controllers.HomeController();
 
             // Act
             var result = controller.Error() as ViewResult;
