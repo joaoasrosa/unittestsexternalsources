@@ -29,21 +29,17 @@ test_script:
 
     $targetArgs = '-targetargs: test ' + $ENV:APPVEYOR_BUILD_FOLDER + '\tests\utes.WebApplicationAssemblyStorage.Tests -c ' + $ENV:CONFIGURATION
 
-    $register = '-register:user'
-
     $filter = '-filter:+[utes.WebApplicationAssemblyStorage*]* -[utes.WebApplicationAssemblyStorage.Tests]* -[utes.WebApplicationAssemblyStorage]*MyAssemblyLoadContext*'
 
-    $oldStyle = '-oldStyle'
-
-    & $openCoverConsole $target $targetArgs $register $filter $oldStyle
+    & $openCoverConsole $target $targetArgs '-register:user' $filter '-oldStyle'
 
     $targetArgs = '-targetargs: test ' + $ENV:APPVEYOR_BUILD_FOLDER + '\tests\utes.WebApp.Tests -c ' + $ENV:CONFIGURATION
 
     $filter = '-filter:+[utes.WebApp*]* -[utes.WebApp.Tests]* -[utes.WebApp]*Startup* -[utes.WebApp]*Program* -[utes.WebApp]*Models* -[utes.WebApp]*Extensions*'
 
-    $mergeoutput = '-output:' + $resultsFile + ' -mergeoutput'
+    $output = '-output:' + $resultsFile
 
-    & $openCoverConsole $target $targetArgs $register $filter $mergeoutput $oldStyle
+    & $openCoverConsole $target $targetArgs '-register:user' $filter $output '-mergeoutput' '-oldStyle'
 
     $artifactsFolder = $ENV:APPVEYOR_BUILD_FOLDER + '\artifacts'
 
