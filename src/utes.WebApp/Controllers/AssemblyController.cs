@@ -52,22 +52,14 @@ namespace utes.WebApp.Controllers
         [Route("Assembly/Upload")]
         public IActionResult Upload()
         {
-            try
-            {
-                return View();
-            }
-            catch (Exception ex)
-            {
-                this._logger.LogError(EventId.GenericException, ex, ex.Message);
-                throw;
-            }
+            return View();
         }
 
         // POST: /Assembly/Upload
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Assembly/Upload")]
-        public async Task<IActionResult> UploadAssembly()
+        public async Task<IActionResult> UploadAssemblyAsync()
         {
             try
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Internal;
@@ -123,7 +124,7 @@ namespace utes.WebApp.Tests.Controllers
         /// Test method for Index action in Assembly controller.
         /// </summary>
         [Fact]
-        public void IndeTest()
+        public void IndexTest()
         {
             // Arrange
             var assemblyStorageMock = new Mock<IAssemblyStorage>();
@@ -152,7 +153,7 @@ namespace utes.WebApp.Tests.Controllers
             Assert.NotEmpty((IEnumerable<Assembly>)result.Model);
             Assert.Equal(1, ((IEnumerable<Assembly>)result.Model).Count());
 
-            var assembly = ((IEnumerable<Assembly>) result.Model).Single();
+            var assembly = ((IEnumerable<Assembly>)result.Model).Single();
             Assert.Equal(@"C:\Temp\Dummy.dll", assembly.Path);
             Assert.Equal("Dummy.dll", assembly.Name);
             Assert.Equal("1.0.0.0", assembly.Version);
@@ -163,6 +164,58 @@ namespace utes.WebApp.Tests.Controllers
             Assert.Null(result.ViewName);
             Assert.NotNull(result.ViewData);
             Assert.Empty(result.ViewData);
+        }
+
+        /// <summary>
+        /// Test method for Upload action in Assembly controller.
+        /// </summary>
+        [Fact]
+        public void UploadTest()
+        {
+            // Arrange
+            var assemblyStorageMock = new Mock<IAssemblyStorage>();
+            var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
+            var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
+                loggerMock.Object);
+
+            // Act
+            var result = assemblyController.Upload() as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Null(result.Model);
+        }
+
+        /// <summary>
+        /// Test method for UploadAssembly action in Assembly controller with an exception.
+        /// </summary>
+        [Fact]
+        public void UploadAssemblyExceptionTest()
+        {
+            // Arrange
+            var assemblyStorageMock = new Mock<IAssemblyStorage>();
+            var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
+            var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
+                loggerMock.Object);
+
+
+            var xpto = new Mock<ControllerContext>();
+            var context = new Mock<HttpContext>();
+            var request = new Mock<HttpRequest>();
+            context
+                .Setup(c => c.Request)
+                .Returns(request.Object);
+
+            xpto.Setup(x => x.HttpContext).Returns(context.Object);
+
+            assemblyController.ControllerContext = xpto.Object;
+
+            // Act
+            var result = assemblyController.UploadAssemblyAsync().Result as ViewResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Null(result.Model);
         }
     }
 }
