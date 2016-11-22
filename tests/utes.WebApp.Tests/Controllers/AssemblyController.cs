@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Internal;
 using Moq;
+using NLog;
 using utes.Domain;
 using utes.Interfaces;
+using utes.WebApp.Models;
 using Xunit;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace utes.WebApp.Tests.Controllers
 {
@@ -187,10 +190,10 @@ namespace utes.WebApp.Tests.Controllers
         }
 
         /// <summary>
-        /// Test method for UploadAssembly action in Assembly controller with an exception.
+        /// Test method for UploadAssembly action in Assembly controller.
         /// </summary>
         [Fact]
-        public void UploadAssemblyExceptionTest()
+        public void UploadAssemblyTest()
         {
             // Arrange
             var assemblyStorageMock = new Mock<IAssemblyStorage>();
@@ -198,24 +201,34 @@ namespace utes.WebApp.Tests.Controllers
             var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
                 loggerMock.Object);
 
+            var formFile = new Mock<IFormFile>();
+            formFile.Setup(x => x.FileName).Returns("Test");
 
-            var xpto = new Mock<ControllerContext>();
-            var context = new Mock<HttpContext>();
-            var request = new Mock<HttpRequest>();
-            context
-                .Setup(c => c.Request)
-                .Returns(request.Object);
+            var formFileCollection = new Mock<IFormFileCollection>();
+            formFileCollection.Setup(x => x.GetFile("assemblyFile")).Returns(formFile.Object);
+            formFileCollection.Setup(x => x.Count).Returns(1);
 
-            xpto.Setup(x => x.HttpContext).Returns(context.Object);
+            var formCollection = new Mock<IFormCollection>();
+            formCollection.Setup(x => x.Files).Returns(formFileCollection.Object);
 
-            assemblyController.ControllerContext = xpto.Object;
+            var httpRequest = new Mock<HttpRequest>();
+            httpRequest.Setup(x => x.Form).Returns(formCollection.Object);
+
+            var httpContext = new Mock<HttpContext>();
+            httpContext.Setup(x => x.Request).Returns(httpRequest.Object);
+
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Object.HttpContext = httpContext.Object;
+            assemblyController.ControllerContext = controllerContext.Object;
 
             // Act
-            var result = assemblyController.UploadAssemblyAsync().Result as ViewResult;
+            var result = assemblyController.UploadAssemblyAsync().Result as JsonResult;
 
             // Assert
             Assert.NotNull(result);
-            Assert.Null(result.Model);
+            Assert.NotNull((AssemblyUpload)result.Value);
+            Assert.Equal(true, ((AssemblyUpload)result.Value).Success);
+            Assert.Equal("/Assembly", ((AssemblyUpload)result.Value).RedirectTo);
         }
     }
 }

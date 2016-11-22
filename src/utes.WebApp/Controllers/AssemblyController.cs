@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -67,7 +66,7 @@ namespace utes.WebApp.Controllers
 
                 try
                 {
-                    if (this.Request.Form.Files.Any())
+                    if (this.Request.Form.Files.Count > 0)
                     {
                         var assemblyFile = this.Request.Form.Files.GetFile("assemblyFile");
                         using (var memoryStream = new MemoryStream())
