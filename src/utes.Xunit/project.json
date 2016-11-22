@@ -1,6 +1,6 @@
 {
   "version": "1.0.0-*",
-  "authors": [ "Jo�o Rosa" ],
+  "authors": [ "João Rosa" ],
 
   "dependencies": {
     "utes.Core": "1.0.0-*",

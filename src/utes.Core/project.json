@@ -1,17 +1,11 @@
 {
   "version": "1.0.0-*",
-  "authors": [ "Jo�o Rosa" ],
+  "authors": [ "João Rosa" ],
 
   "dependencies": {
     "Newtonsoft.Json": "9.0.2-beta1"
-    //"NETStandard.Library": "1.6.0",
   },
 
-  //"frameworks": {
-  //  "netstandard1.6": {
-  //    "imports": "dnxcore50"
-  //  }
-  //}
   "frameworks": {
     "netcoreapp1.1": {
       "dependencies": {

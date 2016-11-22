@@ -1,6 +1,6 @@
 {
   "version": "1.0.0-*",
-  "authors": [ "Jo�o Rosa" ],
+  "authors": [ "João Rosa" ],
 
   "dependencies": {
     "Microsoft.AspNetCore.Hosting.Abstractions": "1.1.0",
