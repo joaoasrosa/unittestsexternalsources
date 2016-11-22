@@ -92,7 +92,6 @@ namespace utes.WebApp.Controllers
                         assemblyUploadResult.ErrorHeading = "No assembly uploaded.";
                         assemblyUploadResult.ErrorMessage = "Please upload a valid assembly file.";
                     }
-
                 }
                 catch (DataSourceAttributeNotFoundException dataSourceAttributeNotFoundException)
                 {

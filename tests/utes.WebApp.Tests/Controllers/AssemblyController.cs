@@ -190,6 +190,137 @@ namespace utes.WebApp.Tests.Controllers
         }
 
         /// <summary>
+        /// Test method for UploadAssembly action in Assembly controller with no file.
+        /// </summary>
+        [Fact]
+        public void UploadAssemblyNoFileTest()
+        {
+            // Arrange
+            var assemblyStorageMock = new Mock<IAssemblyStorage>();
+            var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
+            var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
+                loggerMock.Object);
+
+            var formFileCollection = new Mock<IFormFileCollection>();
+            formFileCollection.Setup(x => x.Count).Returns(0);
+
+            var formCollection = new Mock<IFormCollection>();
+            formCollection.Setup(x => x.Files).Returns(formFileCollection.Object);
+
+            var httpRequest = new Mock<HttpRequest>();
+            httpRequest.Setup(x => x.Form).Returns(formCollection.Object);
+
+            var httpContext = new Mock<HttpContext>();
+            httpContext.Setup(x => x.Request).Returns(httpRequest.Object);
+
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Object.HttpContext = httpContext.Object;
+            assemblyController.ControllerContext = controllerContext.Object;
+
+            // Act
+            var result = assemblyController.UploadAssemblyAsync().Result as JsonResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.NotNull((AssemblyUpload)result.Value);
+            Assert.Equal(false, ((AssemblyUpload)result.Value).Success);
+            Assert.Equal("No assembly uploaded.", ((AssemblyUpload)result.Value).ErrorHeading);
+            Assert.Equal("Please upload a valid assembly file.", ((AssemblyUpload)result.Value).ErrorMessage);
+        }
+
+        /// <summary>
+        /// Test method for UploadAssembly action in Assembly controller with an DataSourceAttributeNotFoundException.
+        /// </summary>
+        //TODO: Eat your own dog food!
+        [Fact]
+        public void UploadAssemblyDataSourceAttributeNotFoundExceptionTest()
+        {
+            // Arrange
+            var assemblyStorageMock = new Mock<IAssemblyStorage>();
+            assemblyStorageMock.Setup(x => x.SaveAssembly(It.IsAny<Assembly>())).Throws<BadImageFormatException>();
+
+            var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
+            var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
+                loggerMock.Object);
+
+            var formFile = new Mock<IFormFile>();
+            formFile.Setup(x => x.FileName).Returns("Test");
+
+            var formFileCollection = new Mock<IFormFileCollection>();
+            formFileCollection.Setup(x => x.GetFile("assemblyFile")).Returns(formFile.Object);
+            formFileCollection.Setup(x => x.Count).Returns(1);
+
+            var formCollection = new Mock<IFormCollection>();
+            formCollection.Setup(x => x.Files).Returns(formFileCollection.Object);
+
+            var httpRequest = new Mock<HttpRequest>();
+            httpRequest.Setup(x => x.Form).Returns(formCollection.Object);
+
+            var httpContext = new Mock<HttpContext>();
+            httpContext.Setup(x => x.Request).Returns(httpRequest.Object);
+
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Object.HttpContext = httpContext.Object;
+            assemblyController.ControllerContext = controllerContext.Object;
+
+            // Act
+            var result = assemblyController.UploadAssemblyAsync().Result as JsonResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.NotNull((AssemblyUpload)result.Value);
+            Assert.Equal(false, ((AssemblyUpload)result.Value).Success);
+            Assert.Equal("The uploaded file is not valid.", ((AssemblyUpload)result.Value).ErrorHeading);
+            Assert.Equal("Please upload a valid assembly file.", ((AssemblyUpload)result.Value).ErrorMessage);
+        }
+
+        /// <summary>
+        /// Test method for UploadAssembly action in Assembly controller with an DataSourceAttributeNotFoundException.
+        /// </summary>
+        //TODO: Eat your own dog food!
+        [Fact]
+        public void UploadAssemblyBadImageFormatExceptionTest()
+        {
+            // Arrange
+            var assemblyStorageMock = new Mock<IAssemblyStorage>();
+            assemblyStorageMock.Setup(x => x.SaveAssembly(It.IsAny<Assembly>())).Throws<BadImageFormatException>();
+
+            var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
+            var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
+                loggerMock.Object);
+
+            var formFile = new Mock<IFormFile>();
+            formFile.Setup(x => x.FileName).Returns("Test");
+
+            var formFileCollection = new Mock<IFormFileCollection>();
+            formFileCollection.Setup(x => x.GetFile("assemblyFile")).Returns(formFile.Object);
+            formFileCollection.Setup(x => x.Count).Returns(1);
+
+            var formCollection = new Mock<IFormCollection>();
+            formCollection.Setup(x => x.Files).Returns(formFileCollection.Object);
+
+            var httpRequest = new Mock<HttpRequest>();
+            httpRequest.Setup(x => x.Form).Returns(formCollection.Object);
+
+            var httpContext = new Mock<HttpContext>();
+            httpContext.Setup(x => x.Request).Returns(httpRequest.Object);
+
+            var controllerContext = new Mock<ControllerContext>();
+            controllerContext.Object.HttpContext = httpContext.Object;
+            assemblyController.ControllerContext = controllerContext.Object;
+
+            // Act
+            var result = assemblyController.UploadAssemblyAsync().Result as JsonResult;
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.NotNull((AssemblyUpload)result.Value);
+            Assert.Equal(false, ((AssemblyUpload)result.Value).Success);
+            Assert.Equal("The uploaded file is not valid.", ((AssemblyUpload)result.Value).ErrorHeading);
+            Assert.Equal("Please upload a valid assembly file.", ((AssemblyUpload)result.Value).ErrorMessage);
+        }
+
+        /// <summary>
         /// Test method for UploadAssembly action in Assembly controller.
         /// </summary>
         [Fact]
