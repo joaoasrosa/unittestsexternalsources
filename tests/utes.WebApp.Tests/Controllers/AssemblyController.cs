@@ -237,7 +237,7 @@ namespace utes.WebApp.Tests.Controllers
         {
             // Arrange
             var assemblyStorageMock = new Mock<IAssemblyStorage>();
-            assemblyStorageMock.Setup(x => x.SaveAssembly(It.IsAny<Assembly>())).Throws<BadImageFormatException>();
+            assemblyStorageMock.Setup(x => x.SaveAssembly(It.IsAny<Assembly>())).Throws<DataSourceAttributeNotFoundException>();
 
             var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
             var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
