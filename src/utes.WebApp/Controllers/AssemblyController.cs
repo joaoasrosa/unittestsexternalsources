@@ -119,5 +119,12 @@ namespace utes.WebApp.Controllers
                 throw;
             }
         }
+
+        // GET: /Assembly/{assemblyName}
+        [Route("Assembly/{assemblyName}")]
+        public async Task<IActionResult> AssemblyMethodsAsync(string assemblyName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
