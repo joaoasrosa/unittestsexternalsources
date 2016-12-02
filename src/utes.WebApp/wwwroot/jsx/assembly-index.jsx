@@ -44,7 +44,7 @@ var AssembliesTableBody = React.createClass({
         const assemblyRow = this.props.data.map(function (assembly) {
             return (
                 <tr key={assembly.Name}>
-                    <td>{assembly.Name}</td>
+                    <td><a href={'/Assembly/' + assembly.Name + '/Class' }>{assembly.Name}</a></td>
                     <td>{assembly.Version}</td>
                     <td>{assembly.Path}</td>
                 </tr>
@@ -57,4 +57,4 @@ var AssembliesTableBody = React.createClass({
     }
 });
 
-ReactDOM.render(<Assemblies initialData={initialData} />, document.getElementById('assemblies'));
+ReactDOM.render(<Assemblies initialData={initialData } />, document.getElementById('assemblies'));

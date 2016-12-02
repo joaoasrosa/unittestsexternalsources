@@ -120,9 +120,9 @@ namespace utes.WebApp.Controllers
             }
         }
 
-        // GET: /Assembly/{assemblyName}/Classes
-        [Route("Assembly/{assemblyName}/Classes")]
-        public IActionResult AssemblyClasses(string assemblyName)
+        // GET: /Assembly/{assemblyName}/Class
+        [Route("Assembly/{assemblyName}/Class")]
+        public IActionResult AssemblyClass(string assemblyName)
         {
             try
             {

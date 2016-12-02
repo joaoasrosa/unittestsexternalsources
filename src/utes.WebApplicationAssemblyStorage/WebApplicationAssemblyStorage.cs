@@ -136,7 +136,7 @@ namespace utes.WebApplicationAssemblyStorage
         public IEnumerable<Class> GetClassesInAssembly(string assemblyName)
         {
             // Get the assembly.
-            var assemblyPath = Directory.EnumerateFiles(this._assembliesPath, assemblyName).Single();
+            var assemblyPath = Directory.EnumerateFiles(this._assembliesPath, $"{assemblyName}.dll").Single();
 
             // Load into memory.
             var myAssemblyLoadContext = new MyAssemblyLoadContext();

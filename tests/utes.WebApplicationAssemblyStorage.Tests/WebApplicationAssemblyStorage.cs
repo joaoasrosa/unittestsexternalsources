@@ -349,7 +349,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
                 hostingEnvironmentMock.Object, new[] { new JsonDataSourceAttribute() });
 
             // Act
-            var assemblyClasses = webApplicationAssemblyStorage.GetClassesInAssembly(CoreTestsAssemblyNameWithExtension);
+            var assemblyClasses = webApplicationAssemblyStorage.GetClassesInAssembly(CoreTestsAssemblyName);
 
             // Assert 
             Assert.NotNull(assemblyClasses);
