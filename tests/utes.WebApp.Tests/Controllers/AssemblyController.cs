@@ -36,7 +36,7 @@ namespace utes.WebApp.Tests.Controllers
             {
                 // Assert
                 Assert.NotNull(argumentNullException);
-                Assert.Equal("Value cannot be null.\r\nParameter name: assemblyStorage", argumentNullException.Message);
+                Assert.Equal("assemblyStorage", argumentNullException.ParamName);
             }
         }
 
@@ -58,7 +58,7 @@ namespace utes.WebApp.Tests.Controllers
             {
                 // Assert
                 Assert.NotNull(argumentNullException);
-                Assert.Equal("Value cannot be null.\r\nParameter name: logger", argumentNullException.Message);
+                Assert.Equal("logger", argumentNullException.ParamName);
             }
         }
 
