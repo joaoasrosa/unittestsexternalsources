@@ -18,6 +18,8 @@ namespace utes.WebApplicationAssemblyStorage.Tests
         private const string DummyDllDirectory = @"C:\Temp\UnitTestExternalSources\dummyassemblies";
         private const string AssemblyNameWithExtension = "utes.WebApplicationAssemblyStorage.Tests.dll";
         private const string AssemblyName = "utes.WebApplicationAssemblyStorage.Tests";
+        private const string CoreTestsAssemblyNameWithExtension = "utes.Core.Tests.dll";
+        private const string CoreTestsAssemblyName = "utes.Core.Tests";
 
         public WebApplicationAssemblyStorage()
         {
@@ -58,10 +60,16 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             }
 
             // Deploy known DLL's.
-            var knownDlls = Directory.EnumerateFiles(AppContext.BaseDirectory, AssemblyNameWithExtension);
+            var knownDlls = Directory.EnumerateFiles(AppContext.BaseDirectory, AssemblyNameWithExtension).ToList();
+            knownDlls.AddRange(Directory.EnumerateFiles(AppContext.BaseDirectory, CoreTestsAssemblyNameWithExtension));
             foreach (var knownDll in knownDlls)
             {
-                File.Copy(knownDll, Path.Combine(DllDirectory, Path.GetFileName(knownDll)));
+                var path = Path.Combine(DllDirectory, Path.GetFileName(knownDll));
+                if (File.Exists(path))
+                {
+                    continue;
+                }
+                File.Copy(knownDll, path);
             }
         }
 
@@ -107,7 +115,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             {
                 // Assert
                 Assert.NotNull(argumentNullException);
-                Assert.Equal("Value cannot be null.\r\nParameter name: appEnvironment", argumentNullException.Message);
+                Assert.Equal("appEnvironment", argumentNullException.ParamName);
             }
         }
 
@@ -131,7 +139,7 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             {
                 // Assert
                 Assert.NotNull(argumentNullException);
-                Assert.Equal("Value cannot be null.\r\nParameter name: methodAttributes", argumentNullException.Message);
+                Assert.Equal("methodAttributes", argumentNullException.ParamName);
             }
         }
 
@@ -185,9 +193,15 @@ namespace utes.WebApplicationAssemblyStorage.Tests
 
             var assembliesArray = assemblies.ToArray();
             Assert.NotEmpty(assembliesArray);
-            Assert.Equal(1, assembliesArray.Length);
+            Assert.Equal(2, assembliesArray.Length);
 
             var assembly = assembliesArray[0];
+            Assert.Null(assembly.ContentBytes);
+            Assert.NotNull(assembly.Version);
+            Assert.Equal(CoreTestsAssemblyName, assembly.Name);
+            Assert.Equal(Path.Combine(DllDirectory, CoreTestsAssemblyNameWithExtension), assembly.Path);
+
+            assembly = assembliesArray[1];
             Assert.Null(assembly.ContentBytes);
             Assert.NotNull(assembly.Version);
             Assert.Equal(AssemblyName, assembly.Name);
@@ -306,10 +320,10 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
                 hostingEnvironmentMock.Object, new[] { new JsonDataSourceAttribute() });
 
-            var dllPath = Directory.EnumerateFiles(AppContext.BaseDirectory, "utes.Core.Tests.dll").First();
+            var dllPath = Directory.EnumerateFiles(AppContext.BaseDirectory, CoreTestsAssemblyNameWithExtension).First();
             var assembly = new Assembly
             {
-                Name = "utes.Core.Tests.dll",
+                Name = CoreTestsAssemblyNameWithExtension,
                 ContentBytes = File.ReadAllBytes(dllPath)
             };
 
@@ -319,6 +333,27 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             // Assert 
             // This case no exceptions.
             Assert.True(true);
+        }
+
+        /// <summary>
+        /// Test method for GetClassesInAssembly method.
+        /// </summary>
+        [Fact]
+        public void GetClassesInAssemblyTest()
+        {
+            // Arrange
+            var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
+            hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(TestDllDirectory);
+
+            var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
+                hostingEnvironmentMock.Object, new[] { new JsonDataSourceAttribute() });
+
+            // Act
+            var assemblyClasses = webApplicationAssemblyStorage.GetClassesInAssembly(CoreTestsAssemblyNameWithExtension);
+
+            // Assert 
+            Assert.NotNull(assemblyClasses);
+            Assert.NotEmpty(assemblyClasses);
         }
     }
 }

@@ -127,5 +127,32 @@ namespace utes.WebApplicationAssemblyStorage
                 throw;
             }
         }
+
+        /// <summary>
+        /// Returns all the classes with methods implementing IMethodAttribute interface in the given assembly.
+        /// </summary>
+        /// <param name="assemblyName">The assembly name.</param>
+        /// <returns>The classes with methods implementing IMethodAttribute interface.</returns>
+        public IEnumerable<Class> GetClassesInAssembly(string assemblyName)
+        {
+            // Get the assembly.
+            var assemblyPath = Directory.EnumerateFiles(this._assembliesPath, assemblyName).Single();
+
+            // Load into memory.
+            var myAssemblyLoadContext = new MyAssemblyLoadContext();
+            var assemblyInMemory = myAssemblyLoadContext.LoadFromAssemblyPath(assemblyPath);
+
+            // Get the classes implementing the IMethodAttribute interface.
+            return (from c in assemblyInMemory.GetTypes()
+                    from m in c.GetMethods()
+                    from t in m.GetCustomAttributes()
+                    from ma in this._methodAttributes
+                    where t.GetType() == ma.GetType()
+                    select new Class
+                    {
+                        FullName = c.FullName,
+                        Name = c.Name
+                    }).ToArray();
+        }
     }
 }

@@ -12,7 +12,8 @@
     "utes.WebApplicationAssemblyStorage": "1.0.0-*",
     "utes.Core.Tests": "1.0.0-*",
     "utes.Xunit": "1.0.0-*",
-    "xunit": "2.2.0-beta4-build3444"
+    "xunit": "2.2.0-beta4-build3444",
+    "utes.Core": "1.0.0-*"
   },
 
   "frameworks": {

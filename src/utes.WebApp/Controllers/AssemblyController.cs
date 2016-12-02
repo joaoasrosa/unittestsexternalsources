@@ -120,11 +120,19 @@ namespace utes.WebApp.Controllers
             }
         }
 
-        // GET: /Assembly/{assemblyName}
-        [Route("Assembly/{assemblyName}")]
-        public async Task<IActionResult> AssemblyMethodsAsync(string assemblyName)
+        // GET: /Assembly/{assemblyName}/Classes
+        [Route("Assembly/{assemblyName}/Classes")]
+        public IActionResult AssemblyClasses(string assemblyName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return View(this._assemblyStorage.GetClassesInAssembly(assemblyName));
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(EventId.GenericException, ex, ex.Message);
+                throw;
+            }
         }
     }
 }

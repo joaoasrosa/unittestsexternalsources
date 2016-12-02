@@ -1,0 +1,16 @@
+﻿@model IEnumerable<utes.Domain.Class>
+@{
+    ViewData["Title"] = "Assembly Classes";
+}
+
+<h2>@ViewData["Title"].</h2>
+<div id="assemblies">Loading...</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var initialData = @Html.Raw(JsonConvert.SerializeObject(Model));
+    </script>
+    <script type="text/babel" src="@Url.Content("~/jsx/assembly-classes.jsx")">
+    </script>
+}

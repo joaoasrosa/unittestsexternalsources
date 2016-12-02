@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using utes.Domain;
 
 namespace utes.Interfaces
@@ -20,5 +19,12 @@ namespace utes.Interfaces
         /// </summary>
         /// <param name="assembly">The assembly to save.</param>
         void SaveAssembly(Assembly assembly);
+
+        /// <summary>
+        /// Returns all the classes with methods implementing IMethodAttribute interface in the given assembly.
+        /// </summary>
+        /// <param name="assemblyName">The assembly name.</param>
+        /// <returns>The classes with methods implementing IMethodAttribute interface.</returns>
+        IEnumerable<Class> GetClassesInAssembly(string assemblyName);
     }
 }
