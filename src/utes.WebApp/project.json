@@ -62,6 +62,7 @@
       "wwwroot",
       "Views",
       "Areas/**/Views",
+      "hosting.json",
       "appsettings.json",
       "web.config",
       "nlog.config"
