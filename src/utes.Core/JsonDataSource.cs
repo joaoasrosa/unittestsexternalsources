@@ -99,20 +99,20 @@ namespace utes.Core
             if (string.IsNullOrWhiteSpace(this._fileLocation)
                 && string.IsNullOrWhiteSpace(this._resourceName) && null == this._resourceType)
             {
-                throw new AllPropertiesNullOrEmptyException("All properties are null or empty.");
+                throw new AllPropertiesNullOrEmptyException();
             }
 
             // Check the file location.
             if (!string.IsNullOrWhiteSpace(this._fileLocation) && !File.Exists(this._fileLocation))
             {
-                throw new FileNotExistsException("File does not exists.");
+                throw new FileNotExistsException();
             }
 
             // Check the file resource.
             if (string.IsNullOrWhiteSpace(this._fileLocation)
                 && (string.IsNullOrWhiteSpace(this._resourceName) || null == this._resourceType))
             {
-                throw new ResourceNotExistsException("Resource does not exists.");
+                throw new ResourceNotExistsException();
             }
 
             // Check the storage type.
