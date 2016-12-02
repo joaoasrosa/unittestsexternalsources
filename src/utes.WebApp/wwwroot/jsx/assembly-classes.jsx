@@ -3,14 +3,14 @@
         return { data: this.props.initialData };
     },
     render: function () {
-        var assembliesComponent;
+        var classesComponent;
         if (this.state.data && this.state.data.length > 0) {
-            assembliesComponent = <ClassesTable data={this.state.data } />;
+            classesComponent = <ClassesTable data={this.state.data } />;
         } else {
-            assembliesComponent = <ClassesWarning />;
+            classesComponent = <ClassesWarning />;
         }
 
-        return (assembliesComponent);
+        return (classesComponent);
     }
 });
 
@@ -43,7 +43,7 @@ var ClassesTableBody = React.createClass({
         const classRow = this.props.data.map(function (assemblyClass) {
             return (
                 <tr key={assemblyClass.Name}>
-                    <td>{assemblyClass.Name}</td>
+                    <td><a href={'/Assembly/' + assemblyClass.AssemblyName + '/Class/' + assemblyClass.Name + '/Method' }>{assemblyClass.Name}</a></td>
                     <td>{assemblyClass.FullName}</td>
                 </tr>
             );

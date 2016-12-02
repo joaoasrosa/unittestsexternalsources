@@ -151,7 +151,37 @@ namespace utes.WebApplicationAssemblyStorage
                     select new Class
                     {
                         FullName = c.FullName,
-                        Name = c.Name
+                        Name = c.Name,
+                        AssemblyName = assemblyName
+                    }).ToArray();
+        }
+
+        /// <summary>
+        /// Returns all the methods implementing IMethodAttribute in the given class.
+        /// </summary>
+        /// <param name="class">The class.</param>
+        /// <returns>The methods implementing IMethodAttribute interface.</returns>
+        public IEnumerable<Method> GetMethodsInClass(Class @class)
+        {
+            // Get the assembly.
+            var assemblyPath = Directory.EnumerateFiles(this._assembliesPath, $"{@class.AssemblyName}.dll").Single();
+
+            // Load into memory.
+            var myAssemblyLoadContext = new MyAssemblyLoadContext();
+            var assemblyInMemory = myAssemblyLoadContext.LoadFromAssemblyPath(assemblyPath);
+
+            // Get the classes implementing the IMethodAttribute interface.
+            return (from c in assemblyInMemory.GetTypes()
+                    from m in c.GetMethods()
+                    from t in m.GetCustomAttributes()
+                    from ma in this._methodAttributes
+                    where c.Name.Equals(@class.Name)
+                    && t.GetType() == ma.GetType()
+                    select new Method
+                    {
+                        Name = m.Name,
+                        ClassName = @class.Name,
+                        AssemblyName = @class.AssemblyName
                     }).ToArray();
         }
     }

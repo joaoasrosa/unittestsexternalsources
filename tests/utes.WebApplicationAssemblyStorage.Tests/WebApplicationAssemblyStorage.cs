@@ -355,5 +355,30 @@ namespace utes.WebApplicationAssemblyStorage.Tests
             Assert.NotNull(assemblyClasses);
             Assert.NotEmpty(assemblyClasses);
         }
+
+        /// <summary>
+        /// Test method for GetMethodsInClass method.
+        /// </summary>
+        [Fact]
+        public void GetMethodsInClassTest()
+        {
+            // Arrange
+            var hostingEnvironmentMock = new Mock<IHostingEnvironment>();
+            hostingEnvironmentMock.Setup(x => x.ContentRootPath).Returns(TestDllDirectory);
+
+            var webApplicationAssemblyStorage = new utes.WebApplicationAssemblyStorage.WebApplicationAssemblyStorage(
+                hostingEnvironmentMock.Object, new[] { new JsonDataSourceAttribute() });
+
+            // Act
+            var classMethods = webApplicationAssemblyStorage.GetMethodsInClass(new Class
+            {
+                Name = "JsonDataSource",
+                AssemblyName = CoreTestsAssemblyName
+            });
+
+            // Assert 
+            Assert.NotNull(classMethods);
+            Assert.NotEmpty(classMethods);
+        }
     }
 }

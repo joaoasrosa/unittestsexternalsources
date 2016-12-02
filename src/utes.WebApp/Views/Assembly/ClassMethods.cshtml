@@ -1,0 +1,16 @@
+﻿@model IEnumerable<utes.Domain.Method>
+@{
+    ViewData["Title"] = "Class Methods";
+}
+
+<h2>@ViewData["Title"].</h2>
+<div id="methods">Loading...</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var initialData = @Html.Raw(JsonConvert.SerializeObject(Model));
+    </script>
+    <script type="text/babel" src="@Url.Content("~/jsx/assembly-class-method.jsx")">
+    </script>
+}

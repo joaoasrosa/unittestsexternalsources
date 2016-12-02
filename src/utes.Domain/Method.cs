@@ -1,19 +1,19 @@
 ﻿namespace utes.Domain
 {
     /// <summary>
-    /// Represents a Class in the domain.
+    /// Representd a class method that implements the IMethodAttribute interface.
     /// </summary>
-    public class Class
+    public class Method
     {
         /// <summary>
-        /// The name of the class.
+        /// The method name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// The full name of the class.
+        /// The class name.
         /// </summary>
-        public string FullName { get; set; }
+        public string ClassName { get; set; }
 
         /// <summary>
         /// The assembly name.

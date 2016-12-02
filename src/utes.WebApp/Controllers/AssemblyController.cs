@@ -134,5 +134,20 @@ namespace utes.WebApp.Controllers
                 throw;
             }
         }
+
+        // GET: /Assembly/{AssemblyName}/Class/{name}/Method
+        [Route("Assembly/{AssemblyName}/Class/{name}/Method")]
+        public IActionResult ClassMethods(Class @class)
+        {
+            try
+            {
+                return View(this._assemblyStorage.GetMethodsInClass(@class));
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(EventId.GenericException, ex, ex.Message);
+                throw;
+            }
+        }
     }
 }

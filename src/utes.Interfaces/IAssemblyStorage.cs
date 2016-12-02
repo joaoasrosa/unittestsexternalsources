@@ -26,5 +26,12 @@ namespace utes.Interfaces
         /// <param name="assemblyName">The assembly name.</param>
         /// <returns>The classes with methods implementing IMethodAttribute interface.</returns>
         IEnumerable<Class> GetClassesInAssembly(string assemblyName);
+
+        /// <summary>
+        /// Returns all the methods implementing IMethodAttribute in the given class.
+        /// </summary>
+        /// <param name="class">The class.</param>
+        /// <returns>The methods implementing IMethodAttribute interface.</returns>
+        IEnumerable<Method> GetMethodsInClass(Class @class);
     }
 }
