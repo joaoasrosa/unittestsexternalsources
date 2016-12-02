@@ -12,7 +12,6 @@
     "utes.WebApplicationAssemblyStorage": "1.0.0-*",
     "utes.Core": "1.0.0-*",
     "utes.Xunit": "1.0.0-*",
-    "NLog.Extensions.Logging": "1.0.0-rtm-alpha4",
     "Microsoft.AspNetCore.Razor.Tools": "1.1.0-preview4-final",
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.1.0-preview4-final",
     "BundlerMinifier.Core": "2.2.306",
@@ -28,7 +27,8 @@
     "Microsoft.Extensions.Logging.Debug": "1.1.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
-    "Newtonsoft.Json": "9.0.2-beta1"
+    "Newtonsoft.Json": "9.0.2-beta1",
+    "NLog.Extensions.Logging": "1.0.0-rtm-alpha5"
   },
 
   "tools": {
