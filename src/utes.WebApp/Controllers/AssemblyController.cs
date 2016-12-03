@@ -80,17 +80,18 @@ namespace utes.WebApp.Controllers
                             };
                             this._assemblyStorage.SaveAssembly(assembly);
                             this._logger.LogInformation(EventId.SucessfullyAssemblyUpload,
-                                string.Format("Assembly '{0}' successfully uploaded.", assembly.Name));
+                                string.Format(Resources.AssemblyController.ResourceManager.GetString("LogSucessfullyAssemblyUpload"), assembly.Name));
                         }
                         assemblyUploadResult.Success = true;
                         assemblyUploadResult.RedirectTo = "/Assembly";
                     }
                     else
                     {
-                        this._logger.LogInformation(EventId.ExceptionAssemblyUpload, "No assembly uploaded");
+                        this._logger.LogInformation(EventId.ExceptionAssemblyUpload,
+                            Resources.AssemblyController.ResourceManager.GetString("LogExceptionAssemblyUpload"));
                         assemblyUploadResult.Success = false;
-                        assemblyUploadResult.ErrorHeading = "No assembly uploaded.";
-                        assemblyUploadResult.ErrorMessage = "Please upload a valid assembly file.";
+                        assemblyUploadResult.ErrorHeading = Resources.AssemblyController.ResourceManager.GetString("ErrorHeadingExceptionAssemblyUpload");
+                        assemblyUploadResult.ErrorMessage = Resources.AssemblyController.ResourceManager.GetString("ErrorMessageExceptionAssemblyUpload");
                     }
                 }
                 catch (DataSourceAttributeNotFoundException dataSourceAttributeNotFoundException)
@@ -98,20 +99,19 @@ namespace utes.WebApp.Controllers
                     this._logger.LogInformation(EventId.ExceptionAssemblyUpload, dataSourceAttributeNotFoundException,
                         dataSourceAttributeNotFoundException.Message);
                     assemblyUploadResult.Success = false;
-                    assemblyUploadResult.ErrorHeading = "The uploaded file is not valid.";
-                    assemblyUploadResult.ErrorMessage = "Please upload a valid assembly file.";
+                    assemblyUploadResult.ErrorHeading = Resources.AssemblyController.ResourceManager.GetString("ErrorHeadingExceptionAssemblyNotValid");
+                    assemblyUploadResult.ErrorMessage = Resources.AssemblyController.ResourceManager.GetString("ErrorMessageExceptionAssemblyNotValid");
                 }
                 catch (BadImageFormatException badImageFormatException)
                 {
                     this._logger.LogInformation(EventId.ExceptionAssemblyUpload, badImageFormatException,
                         badImageFormatException.Message);
                     assemblyUploadResult.Success = false;
-                    assemblyUploadResult.ErrorHeading = "The uploaded file is not valid.";
-                    assemblyUploadResult.ErrorMessage = "Please upload a valid assembly file.";
+                    assemblyUploadResult.ErrorHeading = Resources.AssemblyController.ResourceManager.GetString("ErrorHeadingExceptionAssemblyNotValid");
+                    assemblyUploadResult.ErrorMessage = Resources.AssemblyController.ResourceManager.GetString("ErrorMessageExceptionAssemblyNotValid");
                 }
 
                 return Json(assemblyUploadResult);
-
             }
             catch (Exception ex)
             {
