@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Internal;
 using Moq;
-using NLog;
 using utes.Domain;
 using utes.Interfaces;
 using utes.WebApp.Models;
@@ -237,7 +237,8 @@ namespace utes.WebApp.Tests.Controllers
         {
             // Arrange
             var assemblyStorageMock = new Mock<IAssemblyStorage>();
-            assemblyStorageMock.Setup(x => x.SaveAssembly(It.IsAny<Assembly>())).Throws<DataSourceAttributeNotFoundException>();
+            assemblyStorageMock.Setup(x => x.SaveAssembly(It.IsAny<Assembly>()))
+                .Throws<DataSourceAttributeNotFoundException>();
 
             var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
             var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
@@ -324,7 +325,7 @@ namespace utes.WebApp.Tests.Controllers
         /// Test method for UploadAssembly action in Assembly controller.
         /// </summary>
         [Fact]
-        public void UploadAssemblyTest()
+        public async Task UploadAssemblyTestAsync()
         {
             // Arrange
             var assemblyStorageMock = new Mock<IAssemblyStorage>();
@@ -353,13 +354,133 @@ namespace utes.WebApp.Tests.Controllers
             assemblyController.ControllerContext = controllerContext.Object;
 
             // Act
-            var result = assemblyController.UploadAssemblyAsync().Result as JsonResult;
+            var result = await assemblyController.UploadAssemblyAsync() as JsonResult;
 
             // Assert
             Assert.NotNull(result);
             Assert.NotNull((AssemblyUpload)result.Value);
             Assert.Equal(true, ((AssemblyUpload)result.Value).Success);
             Assert.Equal("/Assembly", ((AssemblyUpload)result.Value).RedirectTo);
+        }
+
+        /// <summary>
+        /// Test method for AssemblyClass action in Assembly controller with an exception.
+        /// </summary>
+        [Fact]
+        public void AssemblyClassExceptionTest()
+        {
+            // Arrange
+            var assemblyStorageMock = new Mock<IAssemblyStorage>();
+            assemblyStorageMock.Setup(x => x.GetClassesInAssembly(It.IsAny<string>())).Throws<Exception>();
+
+            var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
+            var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
+                loggerMock.Object);
+
+            try
+            {
+                // Act
+                assemblyController.AssemblyClass(string.Empty);
+            }
+            catch (Exception)
+            {
+                // Assert
+                Assert.True(true);
+            }
+        }
+
+        /// <summary>
+        /// Test method for AssemblyClass action in Assembly controller.
+        /// </summary>
+        [Fact]
+        public void AssemblyClassTest()
+        {
+            // Arrange
+            var classes = new[]
+            {
+                new Class
+                {
+                    AssemblyName = "Foo",
+                    Name = "Bar",
+                    FullName = "Foo.Bar"
+                }
+            };
+
+            var assemblyStorageMock = new Mock<IAssemblyStorage>();
+            assemblyStorageMock.Setup(x => x.GetClassesInAssembly(It.IsAny<string>())).Returns(classes);
+
+            var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
+            var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
+                loggerMock.Object);
+
+            // Act
+            var results = assemblyController.AssemblyClass("Foo") as ViewResult;
+
+            // Assert
+            Assert.NotNull(results);
+            Assert.NotNull(results.Model);
+            Assert.NotEmpty((IEnumerable<Class>)results.Model);
+            Assert.Equal(1, ((IEnumerable<Class>)results.Model).Count());
+        }
+
+        /// <summary>
+        /// Test method for ClassMethods action in Assembly controller with an exception.
+        /// </summary>
+        [Fact]
+        public void ClassMethodsExceptionTest()
+        {
+            // Arrange
+            var assemblyStorageMock = new Mock<IAssemblyStorage>();
+            assemblyStorageMock.Setup(x => x.GetMethodsInClass(It.IsAny<Class>())).Throws<Exception>();
+
+            var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
+            var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
+                loggerMock.Object);
+
+            try
+            {
+                // Act
+                assemblyController.ClassMethods(new Class());
+            }
+            catch (Exception)
+            {
+                // Assert
+                Assert.True(true);
+            }
+        }
+
+        /// <summary>
+        /// Test method for ClassMethods action in Assembly controller.
+        /// </summary>
+        [Fact]
+        public void ClassMethodsTest()
+        {
+            // Arrange
+            var classes = new[]
+            {
+                new Method
+                {
+                    AssemblyName = "Foo",
+                    Name = "Dummy",
+                    ClassName = "Bar"
+                }
+            };
+
+            var assemblyStorageMock = new Mock<IAssemblyStorage>();
+            assemblyStorageMock.Setup(x => x.GetMethodsInClass(It.IsAny<Class>())).Returns(classes);
+
+            var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
+            var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
+                loggerMock.Object);
+
+            // Act
+            var results = assemblyController.ClassMethods(new Class()) as ViewResult;
+
+            // Assert
+            Assert.NotNull(results);
+            Assert.NotNull(results.Model);
+            Assert.NotEmpty((IEnumerable<Method>)results.Model);
+            Assert.Equal(1, ((IEnumerable<Method>)results.Model).Count());
         }
     }
 }
