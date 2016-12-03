@@ -42,7 +42,7 @@ var MethodsTableBody = React.createClass({
         const methodRow = this.props.data.map(function (methodClass) {
             return (
                 <tr key={methodClass.Name}>
-                    <td>{methodClass.Name}</td>
+                     <td><a href={'/Assembly/' + methodClass.AssemblyName + '/Class/' + methodClass.ClassName + '/Method/' + methodClass.Name }>{methodClass.Name}</a></td>
                 </tr>
             );
         });
@@ -53,4 +53,4 @@ var MethodsTableBody = React.createClass({
     }
 });
 
-ReactDOM.render(<Methods initialData={initialData} />, document.getElementById('methods'));
+ReactDOM.render(<Methods initialData={initialData } />, document.getElementById('methods'));

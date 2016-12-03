@@ -184,5 +184,38 @@ namespace utes.WebApplicationAssemblyStorage
                         AssemblyName = @class.AssemblyName
                     }).ToArray();
         }
+
+        /// <summary>
+        /// Returns all method parameters in the given method implementing IMethodAttribute.
+        /// </summary>
+        /// <param name="method">The method.</param>
+        /// <returns>The method parameters.</returns>
+        public IEnumerable<MethodParameter> GetMethodParametersInMethod(Method method)
+        {
+            // Get the assembly.
+            var assemblyPath = Directory.EnumerateFiles(this._assembliesPath, $"{method.AssemblyName}.dll").Single();
+
+            // Load into memory.
+            var myAssemblyLoadContext = new MyAssemblyLoadContext();
+            var assemblyInMemory = myAssemblyLoadContext.LoadFromAssemblyPath(assemblyPath);
+
+            // Get the classes implementing the IMethodAttribute interface.
+            return (from c in assemblyInMemory.GetTypes()
+                    from m in c.GetMethods()
+                    from t in m.GetCustomAttributes()
+                    from ma in this._methodAttributes
+                    from marg in m.GetParameters()
+                    where c.Name.Equals(method.ClassName)
+                    && m.Name.Equals(method.Name)
+                    && t.GetType() == ma.GetType()
+                    select new MethodParameter()
+                    {
+                        Name = marg.Name,
+                        Type = marg.ParameterType.ToString(),
+                        AssemblyName = method.AssemblyName,
+                        ClassName = method.ClassName,
+                        MethodName = method.Name
+                    }).ToArray();
+        }
     }
 }

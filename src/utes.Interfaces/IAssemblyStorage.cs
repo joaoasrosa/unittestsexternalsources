@@ -33,5 +33,12 @@ namespace utes.Interfaces
         /// <param name="class">The class.</param>
         /// <returns>The methods implementing IMethodAttribute interface.</returns>
         IEnumerable<Method> GetMethodsInClass(Class @class);
+
+        /// <summary>
+        /// Returns all method parameters in the given method implementing IMethodAttribute.
+        /// </summary>
+        /// <param name="method">The method.</param>
+        /// <returns>The method parameters.</returns>
+        IEnumerable<MethodParameter> GetMethodParametersInMethod(Method method);
     }
 }

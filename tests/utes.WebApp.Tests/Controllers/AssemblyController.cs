@@ -456,7 +456,7 @@ namespace utes.WebApp.Tests.Controllers
         public void ClassMethodsTest()
         {
             // Arrange
-            var classes = new[]
+            var methods = new[]
             {
                 new Method
                 {
@@ -467,7 +467,7 @@ namespace utes.WebApp.Tests.Controllers
             };
 
             var assemblyStorageMock = new Mock<IAssemblyStorage>();
-            assemblyStorageMock.Setup(x => x.GetMethodsInClass(It.IsAny<Class>())).Returns(classes);
+            assemblyStorageMock.Setup(x => x.GetMethodsInClass(It.IsAny<Class>())).Returns(methods);
 
             var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
             var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
@@ -481,6 +481,68 @@ namespace utes.WebApp.Tests.Controllers
             Assert.NotNull(results.Model);
             Assert.NotEmpty((IEnumerable<Method>)results.Model);
             Assert.Equal(1, ((IEnumerable<Method>)results.Model).Count());
+        }
+
+        /// <summary>
+        /// Test method for MethodParameters action in Assembly controller with an exception.
+        /// </summary>
+        [Fact]
+        public void MethodParametersExceptionTest()
+        {
+            // Arrange
+            var assemblyStorageMock = new Mock<IAssemblyStorage>();
+            assemblyStorageMock.Setup(x => x.GetMethodParametersInMethod(It.IsAny<Method>())).Throws<Exception>();
+
+            var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
+            var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
+                loggerMock.Object);
+
+            try
+            {
+                // Act
+                assemblyController.MethodParameters(new Method());
+            }
+            catch (Exception)
+            {
+                // Assert
+                Assert.True(true);
+            }
+        }
+
+        /// <summary>
+        /// Test method for MethodParameters action in Assembly controller.
+        /// </summary>
+        [Fact]
+        public void MethodParametersTest()
+        {
+            // Arrange
+            var methodParameters = new[]
+            {
+                new MethodParameter
+                {
+                    Name = "a",
+                    Type = "int",
+                    AssemblyName = "Foo",
+                    MethodName = "Dummy",
+                    ClassName = "Bar"
+                }
+            };
+
+            var assemblyStorageMock = new Mock<IAssemblyStorage>();
+            assemblyStorageMock.Setup(x => x.GetMethodParametersInMethod(It.IsAny<Method>())).Returns(methodParameters);
+
+            var loggerMock = new Mock<ILogger<WebApp.Controllers.AssemblyController>>();
+            var assemblyController = new WebApp.Controllers.AssemblyController(assemblyStorageMock.Object,
+                loggerMock.Object);
+
+            // Act
+            var results = assemblyController.MethodParameters(new Method()) as ViewResult;
+
+            // Assert
+            Assert.NotNull(results);
+            Assert.NotNull(results.Model);
+            Assert.NotEmpty((IEnumerable<MethodParameter>)results.Model);
+            Assert.Equal(1, ((IEnumerable<MethodParameter>)results.Model).Count());
         }
     }
 }
