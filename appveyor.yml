@@ -35,7 +35,7 @@ test_script:
 
     $targetArgs = '-targetargs: test ' + $ENV:APPVEYOR_BUILD_FOLDER + '\tests\utes.WebApp.Tests -c ' + $ENV:CONFIGURATION
 
-    $filter = '-filter:+[utes.WebApp*]* -[utes.WebApp.Tests]* -[utes.WebApp]*Startup* -[utes.WebApp]*Program* -[utes.WebApp]*Models* -[utes.WebApp]*Extensions*'
+    $filter = '-filter:+[utes.WebApp*]* -[utes.WebApp.Tests]* -[utes.WebApp]*Startup* -[utes.WebApp]*Program* -[utes.WebApp]*Models* -[utes.WebApp]*Extensions* -[utes.WebApp]*Resources*'
 
     $output = '-output:' + $resultsFile
 
